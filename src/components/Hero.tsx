@@ -1,0 +1,156 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
+import { profile } from "@/data/profile";
+
+const socialIcons = {
+  github: Github,
+  linkedin: Linkedin,
+  twitter: Twitter,
+  email: Mail,
+} as const;
+
+export default function Hero() {
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setRoleIndex((i) => (i + 1) % profile.roles.length),
+      2200
+    );
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section
+      id="top"
+      className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 text-center"
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70"
+      >
+        <span className="relative flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-lime opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-lime" />
+        </span>
+        Available for work · {profile.location}
+      </motion.div>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.1 }}
+        className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl"
+      >
+        Hi, I&apos;m <span className="text-gradient">{profile.name}</span>
+      </motion.h1>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 sm:text-3xl"
+      >
+        <motion.div
+          key={roleIndex}
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -40, opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          {profile.roles[roleIndex]}
+        </motion.div>
+      </motion.div>
+
+      <motion.p
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.35 }}
+        className="mx-auto mt-6 max-w-2xl text-base text-white/60 sm:text-lg"
+      >
+        {profile.headline}
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.45 }}
+        className="mt-9 flex flex-wrap items-center justify-center gap-3"
+      >
+        <a
+          href="#projects"
+          className="rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple px-6 py-3 font-semibold text-white shadow-lg shadow-neon-purple/40 transition-transform hover:scale-105"
+        >
+          View my work
+        </a>
+        <a
+          href="#contact"
+          className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white/90 transition-colors hover:bg-white/10"
+        >
+          Get in touch
+        </a>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+        className="mt-8 flex items-center gap-4"
+      >
+        {Object.entries(profile.socials).map(([key, href]) => {
+          if (!href) return null;
+          const Icon = socialIcons[key as keyof typeof socialIcons];
+          if (!Icon) return null;
+          return (
+            <a
+              key={key}
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel="noopener noreferrer"
+              aria-label={key}
+              className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/70 transition-all hover:scale-110 hover:border-neon-cyan/50 hover:text-neon-cyan"
+            >
+              <Icon size={20} />
+            </a>
+          );
+        })}
+      </motion.div>
+
+      {/* Stats strip */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.7 }}
+        className="mt-14 grid w-full max-w-2xl grid-cols-3 gap-4"
+      >
+        {profile.stats.map((s) => (
+          <div
+            key={s.label}
+            className="glass rounded-2xl px-4 py-5"
+          >
+            <div className="font-display text-2xl font-bold text-gradient sm:text-3xl">
+              {s.value}
+            </div>
+            <div className="mt-1 text-xs text-white/50 sm:text-sm">{s.label}</div>
+          </div>
+        ))}
+      </motion.div>
+
+      <motion.a
+        href="#about"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
+        transition={{ delay: 1, y: { duration: 1.8, repeat: Infinity } }}
+        className="mt-16 text-white/40 hover:text-white"
+        aria-label="Scroll down"
+      >
+        <ArrowDown />
+      </motion.a>
+    </section>
+  );
+}
