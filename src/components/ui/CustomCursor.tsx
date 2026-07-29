@@ -51,7 +51,7 @@ export default function CustomCursor() {
       <motion.div
         aria-hidden
         style={{ x: glowX, y: glowY }}
-        className="pointer-events-none fixed left-0 top-0 z-[60] -ml-[250px] -mt-[250px] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.14),transparent_60%)]"
+        className="pointer-events-none fixed left-0 top-0 z-[60] -ml-[250px] -mt-[250px] h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.16),transparent_60%)]"
       />
       {/* Lagging ring */}
       <motion.div

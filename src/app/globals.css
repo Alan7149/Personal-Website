@@ -16,16 +16,16 @@ html {
 }
 
 body {
-  background: #07030f;
-  color: #f5f3ff;
+  background: #050914;
+  color: #eaf0ff;
   font-family: var(--font-sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Bold colorful gradient text */
+/* Midnight-blue gradient text */
 .text-gradient {
-  background: linear-gradient(120deg, #ff2d96, #a855f7, #22d3ee, #a3e635);
+  background: linear-gradient(120deg, #38bdf8, #3b82f6, #6366f1, #22d3ee);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -56,7 +56,7 @@ body {
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(from var(--angle, 0deg), transparent 20%, var(--accent, #a855f7), transparent 80%);
+  background: conic-gradient(from var(--angle, 0deg), transparent 20%, var(--accent, #3b82f6), transparent 80%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -79,17 +79,17 @@ body {
 
 /* Custom scrollbar */
 ::selection {
-  background: #ff2d96;
+  background: #3b82f6;
   color: #fff;
 }
 ::-webkit-scrollbar {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0a1e;
+  background: #0b1330;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#a855f7, #ff2d96);
+  background: linear-gradient(#3b82f6, #6366f1);
   border-radius: 10px;
 }
 
@@ -104,8 +104,8 @@ body {
 /* Grid backdrop */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(168, 85, 247, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(168, 85, 247, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
   background-size: 46px 46px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
 }

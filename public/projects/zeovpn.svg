@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
   <defs>
     <linearGradient id="zg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1a0f2e"/>
-      <stop offset="100%" stop-color="#070310"/>
+      <stop offset="0" stop-color="#111a3f"/>
+      <stop offset="100%" stop-color="#050914"/>
     </linearGradient>
     <linearGradient id="zc" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#a855f7"/>
-      <stop offset="1" stop-color="#22d3ee"/>
+      <stop offset="0" stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#38bdf8"/>
     </linearGradient>
   </defs>
   <rect width="800" height="450" fill="url(#zg)"/>
-  <g stroke="#a855f7" stroke-opacity="0.35" stroke-width="2">
+  <g stroke="#6366f1" stroke-opacity="0.4" stroke-width="2">
     <line x1="400" y1="200" x2="180" y2="110"/>
     <line x1="400" y1="200" x2="640" y2="120"/>
     <line x1="400" y1="200" x2="150" y2="290"/>
@@ -18,12 +18,12 @@
     <line x1="180" y1="110" x2="640" y2="120"/>
     <line x1="150" y1="290" x2="660" y2="300"/>
   </g>
-  <g fill="#22d3ee">
+  <g fill="#38bdf8">
     <circle cx="180" cy="110" r="9"/><circle cx="640" cy="120" r="9"/>
     <circle cx="150" cy="290" r="9"/><circle cx="660" cy="300" r="9"/>
   </g>
   <path d="M400 120 l70 26 v54 c0 46 -30 78 -70 96 c-40 -18 -70 -50 -70 -96 v-54 z" fill="url(#zc)" opacity="0.95"/>
-  <path d="M372 205 l20 22 l42 -46" fill="none" stroke="#0b0416" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="400" y="392" text-anchor="middle" font-family="Space Grotesk, Arial, sans-serif" font-size="44" font-weight="700" fill="#f3eafc">ZeoVPN</text>
-  <text x="400" y="422" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#c8a6f0">WireGuard · Multi-hop · Kill Switch</text>
+  <path d="M372 205 l20 22 l42 -46" fill="none" stroke="#0a1330" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="400" y="392" text-anchor="middle" font-family="Space Grotesk, Arial, sans-serif" font-size="44" font-weight="700" fill="#eaf0ff">ZeoVPN</text>
+  <text x="400" y="422" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="16" fill="#a9b4f5">WireGuard · Multi-hop · Kill Switch</text>
 </svg>

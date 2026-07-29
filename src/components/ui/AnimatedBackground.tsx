@@ -8,10 +8,10 @@ import { motion } from "framer-motion";
  */
 export default function AnimatedBackground() {
   const blobs = [
-    { color: "#ff2d96", size: 520, x: "-10%", y: "-8%", delay: 0 },
-    { color: "#a855f7", size: 460, x: "70%", y: "10%", delay: 2 },
-    { color: "#22d3ee", size: 420, x: "20%", y: "60%", delay: 4 },
-    { color: "#a3e635", size: 380, x: "85%", y: "70%", delay: 1 },
+    { color: "#3b82f6", size: 520, x: "-10%", y: "-8%", delay: 0 },
+    { color: "#6366f1", size: 460, x: "70%", y: "10%", delay: 2 },
+    { color: "#38bdf8", size: 420, x: "20%", y: "60%", delay: 4 },
+    { color: "#22d3ee", size: 380, x: "85%", y: "70%", delay: 1 },
   ];
 
   return (

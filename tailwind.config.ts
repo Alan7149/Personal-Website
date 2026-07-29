@@ -9,15 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#07030f",
-        surface: "#0f0a1e",
+        // Midnight-blue theme. Key names kept for compatibility; values are
+        // all cool blue-family tones so the whole site reads as one palette.
+        ink: "#050914",
+        surface: "#0b1330",
         neon: {
-          pink: "#ff2d96",
-          purple: "#a855f7",
-          blue: "#3b82f6",
-          cyan: "#22d3ee",
-          lime: "#a3e635",
-          amber: "#fbbf24",
+          pink: "#818cf8", // periwinkle (was hot pink)
+          purple: "#6366f1", // indigo
+          blue: "#3b82f6", // royal blue
+          cyan: "#38bdf8", // sky/cyan
+          lime: "#22d3ee", // teal-cyan (was lime green)
+          amber: "#7dd3fc", // light sky (was amber)
         },
       },
       fontFamily: {
