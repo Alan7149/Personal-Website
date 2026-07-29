@@ -19,12 +19,9 @@ export default function ProjectCard({
 }) {
   return (
     <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
       whileHover={{ y: -8 }}
-      className="glow-border group relative flex flex-col overflow-hidden rounded-3xl glass p-6"
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="glow-border group relative flex h-full flex-col overflow-hidden rounded-3xl glass p-6"
       style={{ ["--accent" as string]: project.accent }}
     >
       {/* Accent glow */}
@@ -59,7 +56,7 @@ export default function ProjectCard({
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="project-media-img h-[118%] w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <div

@@ -24,11 +24,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const initials = profile.name
-    .split(" ")
-    .map((w) => w[0])
-    .join("");
-
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
@@ -45,11 +40,9 @@ export default function Navbar() {
         style={{ marginInline: "1rem" }}
       >
         <a href="#top" className="group flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-neon-pink to-neon-purple font-display text-sm font-bold text-white transition-transform group-hover:rotate-6">
-            {initials}
-          </span>
-          <span className="font-display text-lg font-bold tracking-tight">
+          <span className="relative font-display text-lg font-bold tracking-tight">
             {profile.name}
+            <span className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-gradient-to-r from-neon-pink to-neon-cyan transition-all duration-300 group-hover:w-full" />
           </span>
         </a>
 

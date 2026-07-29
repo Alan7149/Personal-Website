@@ -1,7 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
 
@@ -14,8 +20,30 @@ const socialIcons = {
 
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
+  const [mounted, setMounted] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  // Scroll-driven parallax: content drifts up + fades as you scroll away.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+  const yTitle = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const ySub = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const opacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+
+  // Mouse-follow parallax on the hero.
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 60, damping: 20 });
+  const sy = useSpring(my, { stiffness: 60, damping: 20 });
+  const tiltX = useTransform(sy, [-0.5, 0.5], [8, -8]);
+  const tiltY = useTransform(sx, [-0.5, 0.5], [-8, 8]);
+  const glowX = useTransform(sx, [-0.5, 0.5], [-40, 40]);
+  const glowY = useTransform(sy, [-0.5, 0.5], [-40, 40]);
 
   useEffect(() => {
+    setMounted(true);
     const id = setInterval(
       () => setRoleIndex((i) => (i + 1) % profile.roles.length),
       2200
@@ -23,51 +51,71 @@ export default function Hero() {
     return () => clearInterval(id);
   }, []);
 
+  // Scroll-driven styles are only applied after mount to avoid an SSR
+  // hydration mismatch (server renders opacity:1, client computes from scroll).
+  const scrollStyle = (s: Record<string, unknown>) => (mounted ? s : undefined);
+
+  function onMouseMove(e: React.MouseEvent) {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    mx.set((e.clientX - rect.left) / rect.width - 0.5);
+    my.set((e.clientY - rect.top) / rect.height - 0.5);
+  }
+
   return (
     <section
       id="top"
+      ref={ref}
+      onMouseMove={onMouseMove}
       className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-24 text-center"
     >
+      {/* Mouse-reactive glow orb behind the name */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.6 }}
-        className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70"
-      >
-        <span className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-lime opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-lime" />
-        </span>
-        Available for work · {profile.location}
-      </motion.div>
-
-      <motion.h1
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.1 }}
-        className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl"
-      >
-        Hi, I&apos;m <span className="text-gradient">{profile.name}</span>
-      </motion.h1>
+        aria-hidden
+        style={scrollStyle({ x: glowX, y: glowY })}
+        className="pointer-events-none absolute top-1/3 h-[420px] w-[420px] rounded-full bg-neon-purple/20 blur-[120px]"
+      />
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.25 }}
-        className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 sm:text-3xl"
+        style={scrollStyle({ y: yTitle, opacity, rotateX: tiltX, rotateY: tiltY })}
+        className="flex flex-col items-center [transform-style:preserve-3d] [perspective:1000px]"
       >
         <motion.div
-          key={roleIndex}
-          initial={{ y: 40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm text-white/70"
         >
-          {profile.roles[roleIndex]}
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-neon-lime opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-neon-lime" />
+          </span>
+          Available for work · {profile.location}
         </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl"
+        >
+          Hi, I&apos;m <span className="text-gradient">{profile.name}</span>
+        </motion.h1>
+
+        <div className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 sm:text-3xl">
+          <motion.div
+            key={roleIndex}
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -40, opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {profile.roles[roleIndex]}
+          </motion.div>
+        </div>
       </motion.div>
 
       <motion.p
+        style={scrollStyle({ y: ySub, opacity })}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.35 }}
@@ -77,6 +125,7 @@ export default function Hero() {
       </motion.p>
 
       <motion.div
+        style={scrollStyle({ opacity })}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.45 }}
@@ -97,6 +146,7 @@ export default function Hero() {
       </motion.div>
 
       <motion.div
+        style={scrollStyle({ opacity })}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.6 }}
@@ -123,16 +173,14 @@ export default function Hero() {
 
       {/* Stats strip */}
       <motion.div
+        style={scrollStyle({ opacity })}
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-14 grid w-full max-w-2xl grid-cols-3 gap-4"
       >
         {profile.stats.map((s) => (
-          <div
-            key={s.label}
-            className="glass rounded-2xl px-4 py-5"
-          >
+          <div key={s.label} className="glass rounded-2xl px-4 py-5">
             <div className="font-display text-2xl font-bold text-gradient sm:text-3xl">
               {s.value}
             </div>
@@ -143,9 +191,9 @@ export default function Hero() {
 
       <motion.a
         href="#about"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 10, 0] }}
-        transition={{ delay: 1, y: { duration: 1.8, repeat: Infinity } }}
+        style={scrollStyle({ opacity })}
+        animate={{ y: [0, 10, 0] }}
+        transition={{ y: { duration: 1.8, repeat: Infinity } }}
         className="mt-16 text-white/40 hover:text-white"
         aria-label="Scroll down"
       >
