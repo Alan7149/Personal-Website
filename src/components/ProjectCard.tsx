@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight, Github, Play, Sparkles } from "lucide-react";
 import type { Project } from "@/data/projects";
 
@@ -12,18 +13,65 @@ function LinkIcon({ label }: { label: string }) {
 
 export default function ProjectCard({
   project,
-  index,
 }: {
   project: Project;
-  index: number;
+  index?: number;
 }) {
+  const ref = useRef<HTMLElement>(null);
+
+  // Pointer-driven 3D tilt.
+  const px = useMotionValue(0.5);
+  const py = useMotionValue(0.5);
+  const rotateX = useSpring(useTransform(py, [0, 1], [7, -7]), {
+    stiffness: 200,
+    damping: 18,
+  });
+  const rotateY = useSpring(useTransform(px, [0, 1], [-7, 7]), {
+    stiffness: 200,
+    damping: 18,
+  });
+  // Glare position follows the cursor.
+  const glareX = useTransform(px, [0, 1], ["0%", "100%"]);
+  const glareY = useTransform(py, [0, 1], ["0%", "100%"]);
+
+  function onMove(e: React.MouseEvent<HTMLElement>) {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    px.set((e.clientX - rect.left) / rect.width);
+    py.set((e.clientY - rect.top) / rect.height);
+  }
+  function onLeave() {
+    px.set(0.5);
+    py.set(0.5);
+  }
+
   return (
     <motion.article
-      whileHover={{ y: -8 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="glow-border group relative flex h-full flex-col overflow-hidden rounded-3xl glass p-6"
-      style={{ ["--accent" as string]: project.accent }}
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{
+        ["--accent" as string]: project.accent,
+        rotateX,
+        rotateY,
+        transformPerspective: 900,
+        transformStyle: "preserve-3d",
+      }}
+      className="glow-border group relative flex h-full flex-col overflow-hidden rounded-3xl glass p-6 transition-shadow duration-300 hover:shadow-2xl hover:shadow-black/40"
     >
+      {/* Cursor glare */}
+      <motion.div
+        aria-hidden
+        style={{
+          background: useTransform(
+            [glareX, glareY],
+            ([gx, gy]) =>
+              `radial-gradient(220px circle at ${gx} ${gy}, ${project.accent}22, transparent 65%)`
+          ),
+        }}
+        className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
+
       {/* Accent glow */}
       <div
         className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full blur-3xl transition-opacity duration-500 group-hover:opacity-70"

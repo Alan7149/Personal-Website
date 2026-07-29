@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
+import Magnetic from "./ui/Magnetic";
 
 const socialIcons = {
   github: Github,
@@ -93,12 +94,42 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
+          initial="hidden"
+          animate="show"
+          variants={{
+            show: { transition: { staggerChildren: 0.045, delayChildren: 0.15 } },
+          }}
           className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl"
         >
-          Hi, I&apos;m <span className="text-gradient">{profile.name}</span>
+          <motion.span
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              show: { opacity: 1, y: 0 },
+            }}
+            transition={{ duration: 0.5 }}
+            className="text-white/90"
+          >
+            Hi, I&apos;m{" "}
+          </motion.span>
+          <span className="text-gradient">
+            {profile.name.split("").map((ch, i) =>
+              ch === " " ? (
+                <span key={i}>&nbsp;</span>
+              ) : (
+                <motion.span
+                  key={i}
+                  variants={{
+                    hidden: { opacity: 0, y: 40, rotateX: -80 },
+                    show: { opacity: 1, y: 0, rotateX: 0 },
+                  }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="inline-block [transform-style:preserve-3d]"
+                >
+                  {ch}
+                </motion.span>
+              )
+            )}
+          </span>
         </motion.h1>
 
         <div className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 sm:text-3xl">
@@ -131,18 +162,22 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.45 }}
         className="mt-9 flex flex-wrap items-center justify-center gap-3"
       >
-        <a
-          href="#projects"
-          className="rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple px-6 py-3 font-semibold text-white shadow-lg shadow-neon-purple/40 transition-transform hover:scale-105"
-        >
-          View my work
-        </a>
-        <a
-          href="#contact"
-          className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white/90 transition-colors hover:bg-white/10"
-        >
-          Get in touch
-        </a>
+        <Magnetic>
+          <a
+            href="#projects"
+            className="block rounded-xl bg-gradient-to-r from-neon-pink to-neon-purple px-6 py-3 font-semibold text-white shadow-lg shadow-neon-purple/40"
+          >
+            View my work
+          </a>
+        </Magnetic>
+        <Magnetic>
+          <a
+            href="#contact"
+            className="block rounded-xl border border-white/15 bg-white/5 px-6 py-3 font-semibold text-white/90 transition-colors hover:bg-white/10"
+          >
+            Get in touch
+          </a>
+        </Magnetic>
       </motion.div>
 
       <motion.div
