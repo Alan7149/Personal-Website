@@ -41,16 +41,27 @@ export default function About() {
                   <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-neon-cyan">
                     {group}
                   </p>
-                  <div className="flex flex-wrap gap-2">
+                  <motion.div
+                    className="flex flex-wrap gap-2"
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, margin: "-60px" }}
+                    variants={{ show: { transition: { staggerChildren: 0.04 } } }}
+                  >
                     {items.map((s) => (
-                      <span
+                      <motion.span
                         key={s}
-                        className="rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80 transition-colors hover:border-neon-purple/50 hover:text-white"
+                        variants={{
+                          hidden: { opacity: 0, y: 12, scale: 0.9 },
+                          show: { opacity: 1, y: 0, scale: 1 },
+                        }}
+                        whileHover={{ y: -3, scale: 1.05 }}
+                        className="cursor-default rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-sm text-white/80 transition-colors hover:border-neon-purple/50 hover:text-white"
                       >
                         {s}
-                      </span>
+                      </motion.span>
                     ))}
-                  </div>
+                  </motion.div>
                 </div>
               ))}
             </div>
