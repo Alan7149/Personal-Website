@@ -24,8 +24,8 @@ export const profile = {
   // Social / professional links. Leave a value empty ("") to hide that icon.
   socials: {
     github: "https://github.com/Alan7149",
-    linkedin: "", // add your LinkedIn URL
-    twitter: "", // add your X/Twitter URL
+    linkedin: "https://www.linkedin.com/in/alanbabu7149/",
+    twitter: "https://x.com/pvt_alan7149",
     email: "mailto:alan.babu7149@gmail.com",
   },
   // Quick stats strip in the hero. Tweak to taste.
