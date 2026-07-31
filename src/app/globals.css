@@ -93,6 +93,17 @@ body {
   border-radius: 10px;
 }
 
+/* Rotating hero role — CSS-driven so its resting state is always visible
+   (opacity:1) even if the entrance animation is skipped. Keyed remount in
+   React re-triggers it on each role change. */
+@keyframes roleIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.role-rotate {
+  animation: roleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 /* Hide the native cursor once the custom cursor takes over (fine pointers) */
 .custom-cursor-active,
 .custom-cursor-active a,

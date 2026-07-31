@@ -85,10 +85,18 @@ export default function Hero() {
         className="pointer-events-none absolute top-1/3 h-[420px] w-[420px] rounded-full bg-neon-purple/20 blur-[120px]"
       />
 
-      {/* 3D wavy blob (WebGL), behind the content */}
-      <div className="pointer-events-none absolute left-1/2 top-[25%] z-0 h-[min(50vw,380px)] w-[min(50vw,380px)] -translate-x-1/2 -translate-y-1/2 opacity-75">
+      {/* 3D wavy blob (WebGL), behind the content — sits as an aura above/behind
+          the name so the rotating role line below stays clear of it. */}
+      <div className="pointer-events-none absolute left-1/2 top-[19%] z-0 h-[min(46vw,350px)] w-[min(46vw,350px)] -translate-x-1/2 -translate-y-1/2 opacity-85">
         {mounted && show3D && <HeroBlob />}
       </div>
+
+      {/* Legibility scrim: darkens behind the text column so it stays crisp
+          over the blob, which then reads as a glowing aura around the name. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-[34%] z-[5] h-[400px] w-[860px] max-w-[95vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(5,9,20,0.74)_0%,rgba(5,9,20,0.46)_44%,transparent_74%)] blur-2xl"
+      />
 
       {/* Foreground content */}
       <div className="relative z-10 flex w-full flex-col items-center">
@@ -148,16 +156,10 @@ export default function Hero() {
           </span>
         </motion.h1>
 
-        <div className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 [text-shadow:0_2px_20px_rgba(5,9,20,0.85)] sm:text-3xl">
-          <motion.div
-            key={roleIndex}
-            initial={{ y: 40, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -40, opacity: 0 }}
-            transition={{ duration: 0.4 }}
-          >
+        <div className="mt-5 flex h-10 items-center justify-center font-display text-2xl font-semibold text-neon-cyan [text-shadow:0_2px_20px_rgba(5,9,20,0.85)] sm:text-3xl">
+          <span key={roleIndex} className="role-rotate whitespace-nowrap">
             {profile.roles[roleIndex]}
-          </motion.div>
+          </span>
         </div>
       </motion.div>
 
