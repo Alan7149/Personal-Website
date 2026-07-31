@@ -97,9 +97,11 @@ body {
    (opacity:1) even if the entrance animation is skipped. Keyed remount in
    React re-triggers it on each role change. */
 @keyframes roleIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { transform: translateY(14px); }
+  to { transform: translateY(0); }
 }
+/* Slide only — opacity stays 1 so the role is ALWAYS visible, even if the
+   animation is paused (e.g. a background tab) or skipped. */
 .role-rotate {
   animation: roleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
