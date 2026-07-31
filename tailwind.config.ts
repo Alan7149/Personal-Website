@@ -43,12 +43,23 @@ const config: Config = {
           from: { transform: "rotate(0deg)" },
           to: { transform: "rotate(360deg)" },
         },
+        waveFlow: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        waveFlowRev: {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
+        },
       },
       animation: {
         float: "float 6s ease-in-out infinite",
         gradientShift: "gradientShift 8s ease infinite",
         marquee: "marquee 28s linear infinite",
         spinSlow: "spinSlow 22s linear infinite",
+        waveSlow: "waveFlow 18s linear infinite",
+        waveMed: "waveFlowRev 13s linear infinite",
+        waveFast: "waveFlow 9s linear infinite",
       },
     },
   },

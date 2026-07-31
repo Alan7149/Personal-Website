@@ -8,9 +8,14 @@ import {
   useMotionValue,
   useSpring,
 } from "framer-motion";
+import dynamic from "next/dynamic";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
 import Magnetic from "./ui/Magnetic";
+import Waves from "./ui/Waves";
+
+// The 3D blob is WebGL/heavy — load it client-only so it never touches SSR.
+const HeroBlob = dynamic(() => import("./ui/HeroBlob"), { ssr: false });
 
 const socialIcons = {
   github: Github,
@@ -22,6 +27,7 @@ const socialIcons = {
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [show3D, setShow3D] = useState(false);
   const ref = useRef<HTMLElement>(null);
 
   // Scroll-driven parallax: content drifts up + fades as you scroll away.
@@ -45,6 +51,9 @@ export default function Hero() {
 
   useEffect(() => {
     setMounted(true);
+    // Only mount the WebGL blob for non-reduced-motion users.
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setShow3D(!reduced);
     const id = setInterval(
       () => setRoleIndex((i) => (i + 1) % profile.roles.length),
       2200
@@ -76,10 +85,17 @@ export default function Hero() {
         className="pointer-events-none absolute top-1/3 h-[420px] w-[420px] rounded-full bg-neon-purple/20 blur-[120px]"
       />
 
-      <motion.div
-        style={scrollStyle({ y: yTitle, opacity, rotateX: tiltX, rotateY: tiltY })}
-        className="flex flex-col items-center [transform-style:preserve-3d] [perspective:1000px]"
-      >
+      {/* 3D wavy blob (WebGL), behind the content */}
+      <div className="pointer-events-none absolute left-1/2 top-[25%] z-0 h-[min(50vw,380px)] w-[min(50vw,380px)] -translate-x-1/2 -translate-y-1/2 opacity-75">
+        {mounted && show3D && <HeroBlob />}
+      </div>
+
+      {/* Foreground content */}
+      <div className="relative z-10 flex w-full flex-col items-center">
+        <motion.div
+          style={scrollStyle({ y: yTitle, opacity, rotateX: tiltX, rotateY: tiltY })}
+          className="flex flex-col items-center [transform-style:preserve-3d] [perspective:1000px]"
+        >
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -99,7 +115,7 @@ export default function Hero() {
           variants={{
             show: { transition: { staggerChildren: 0.045, delayChildren: 0.15 } },
           }}
-          className="font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-7xl md:text-8xl"
+          className="font-display text-5xl font-bold leading-[1.05] tracking-tight [text-shadow:0_2px_30px_rgba(5,9,20,0.75)] sm:text-7xl md:text-8xl"
         >
           <motion.span
             variants={{
@@ -132,7 +148,7 @@ export default function Hero() {
           </span>
         </motion.h1>
 
-        <div className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 sm:text-3xl">
+        <div className="mt-5 h-9 overflow-hidden font-display text-2xl font-semibold text-white/80 [text-shadow:0_2px_20px_rgba(5,9,20,0.85)] sm:text-3xl">
           <motion.div
             key={roleIndex}
             initial={{ y: 40, opacity: 0 }}
@@ -234,6 +250,10 @@ export default function Hero() {
       >
         <ArrowDown />
       </motion.a>
+      </div>
+
+      {/* Flowing waves at the base of the hero */}
+      <Waves className="z-0" />
     </section>
   );
 }
