@@ -51,14 +51,22 @@ export default function Hero() {
 
   useEffect(() => {
     setMounted(true);
-    // Only mount the WebGL blob for non-reduced-motion users.
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setShow3D(!reduced);
+    // Show the WebGL blob only on wide screens (≥1024px, where the name fits on
+    // one line and the blob sits above it) and for non-reduced-motion users.
+    const evaluate = () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setShow3D(!reduced && window.innerWidth >= 1024);
+    };
+    evaluate();
+    window.addEventListener("resize", evaluate);
     const id = setInterval(
       () => setRoleIndex((i) => (i + 1) % profile.roles.length),
       2200
     );
-    return () => clearInterval(id);
+    return () => {
+      clearInterval(id);
+      window.removeEventListener("resize", evaluate);
+    };
   }, []);
 
   // Scroll-driven styles are only applied after mount to avoid an SSR
@@ -121,39 +129,27 @@ export default function Hero() {
           initial="hidden"
           animate="show"
           variants={{
-            show: { transition: { staggerChildren: 0.045, delayChildren: 0.15 } },
+            show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
           }}
-          className="font-display text-5xl font-bold leading-[1.05] tracking-tight [text-shadow:0_2px_30px_rgba(5,9,20,0.75)] sm:text-7xl md:text-8xl"
+          className="font-display text-4xl font-bold leading-[1.1] tracking-tight [text-shadow:0_2px_30px_rgba(5,9,20,0.75)] sm:text-6xl lg:text-7xl xl:text-8xl"
         >
+          {/* Two units only — the gradient lives on a single element (no
+              transformed children) so background-clip:text renders reliably
+              across browsers, including mobile. */}
           <motion.span
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              show: { opacity: 1, y: 0 },
-            }}
-            transition={{ duration: 0.5 }}
-            className="text-white/90"
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-block text-white/90"
           >
-            Hi, I&apos;m{" "}
+            Hi, I&apos;m&nbsp;
           </motion.span>
-          <span className="text-gradient">
-            {profile.name.split("").map((ch, i) =>
-              ch === " " ? (
-                <span key={i}>&nbsp;</span>
-              ) : (
-                <motion.span
-                  key={i}
-                  variants={{
-                    hidden: { opacity: 0, y: 40, rotateX: -80 },
-                    show: { opacity: 1, y: 0, rotateX: 0 },
-                  }}
-                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block [transform-style:preserve-3d]"
-                >
-                  {ch}
-                </motion.span>
-              )
-            )}
-          </span>
+          <motion.span
+            variants={{ hidden: { opacity: 0, y: 24 }, show: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="text-gradient inline-block"
+          >
+            {profile.name}
+          </motion.span>
         </motion.h1>
 
         <div className="mt-5 flex h-10 items-center justify-center font-display text-2xl font-semibold text-neon-cyan [text-shadow:0_2px_20px_rgba(5,9,20,0.85)] sm:text-3xl">
@@ -230,7 +226,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7 }}
-        className="mt-14 grid w-full max-w-2xl grid-cols-3 gap-4"
+        className="mt-14 grid w-full max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3"
       >
         {profile.stats.map((s) => (
           <div key={s.label} className="glass rounded-2xl px-4 py-5">
