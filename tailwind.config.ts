@@ -11,8 +11,14 @@ const config: Config = {
       colors: {
         // Midnight-blue theme. Key names kept for compatibility; values are
         // all cool blue-family tones so the whole site reads as one palette.
-        ink: "#050914",
-        surface: "#0b1330",
+        ink: "#070b16",
+        surface: "#0e1526",
+        // Single restrained accent used across the site (calm, not neon).
+        accent: {
+          DEFAULT: "#3b82f6",
+          strong: "#2563eb",
+          soft: "#7da2f8",
+        },
         neon: {
           pink: "#818cf8", // periwinkle (was hot pink)
           purple: "#6366f1", // indigo

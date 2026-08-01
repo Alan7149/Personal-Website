@@ -50,7 +50,7 @@ export default function Navbar() {
           ))}
           <a
             href="#contact"
-            className="ml-1 rounded-lg bg-gradient-to-r from-neon-blue to-neon-purple px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-neon-purple/30 transition-transform hover:scale-105"
+            className="ml-1 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-strong"
           >
             Let&apos;s talk
           </a>
@@ -89,7 +89,7 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setOpen(false)}
-                className="mt-1 rounded-lg bg-gradient-to-r from-neon-blue to-neon-purple px-4 py-3 text-center text-sm font-semibold text-white"
+                className="mt-1 rounded-lg bg-accent px-4 py-3 text-center text-sm font-semibold text-white"
               >
                 Let&apos;s talk
               </a>

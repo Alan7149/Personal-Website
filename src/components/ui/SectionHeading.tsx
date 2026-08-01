@@ -6,66 +6,45 @@ export default function SectionHeading({
   eyebrow,
   title,
   subtitle,
+  align = "center",
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle?: string;
+  align?: "center" | "left";
 }) {
+  const alignment =
+    align === "left" ? "text-left items-start" : "text-center items-center";
   return (
-    <div className="mb-14 text-center">
-      <motion.p
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-80px" }}
-        className="mb-3 inline-block rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-neon-cyan"
-      >
-        {eyebrow}
-      </motion.p>
-
-      {/* Title rises up from behind a mask, word by word */}
-      <motion.h2
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-80px" }}
-        variants={{ show: { transition: { staggerChildren: 0.08 } } }}
-        className="flex flex-wrap justify-center gap-x-[0.3em] font-display text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl"
-      >
-        {title.split(" ").map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden py-1">
-            <motion.span
-              variants={{
-                hidden: { y: "110%" },
-                show: { y: 0 },
-              }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-block"
-            >
-              {word}
-            </motion.span>
-          </span>
-        ))}
-      </motion.h2>
-
-      {/* Animated accent bar */}
-      <motion.div
-        initial={{ scaleX: 0, opacity: 0 }}
-        whileInView={{ scaleX: 1, opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto mt-4 h-1 w-24 origin-center rounded-full bg-gradient-to-r from-neon-blue via-neon-purple to-neon-cyan"
+    <motion.div
+      initial={{ opacity: 0, y: 18 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      className={`mb-12 flex flex-col ${alignment}`}
+    >
+      {eyebrow && (
+        <p className="mb-2 text-sm font-medium uppercase tracking-wider text-accent">
+          {eyebrow}
+        </p>
+      )}
+      <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+        {title}
+      </h2>
+      <div
+        className={`mt-4 h-0.5 w-12 rounded-full bg-accent ${
+          align === "left" ? "" : "mx-auto"
+        }`}
       />
-
       {subtitle && (
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ delay: 0.3 }}
-          className="mx-auto mt-5 max-w-2xl text-base text-white/60 sm:text-lg"
+        <p
+          className={`mt-4 max-w-2xl text-base text-white/55 ${
+            align === "left" ? "" : "mx-auto"
+          }`}
         >
           {subtitle}
-        </motion.p>
+        </p>
       )}
-    </div>
+    </motion.div>
   );
 }

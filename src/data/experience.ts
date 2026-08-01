@@ -19,7 +19,7 @@ export const experiences: Experience[] = [
     period: "2024 — Present",
     location: "Remote",
     summary:
-      "Designing and shipping ambitious full-stack products end to end — AI tools, secure networking apps, and e-commerce platforms.",
+      "Designing and shipping ambitious full-stack products end to end: AI tools, secure networking apps, and e-commerce platforms.",
     points: [
       "Built JARVIS, an AI assistant with a Claude-powered agent and 30+ tools.",
       "Built ZeoVPN, a WireGuard control plane with a live dashboard and desktop app.",

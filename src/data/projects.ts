@@ -30,7 +30,7 @@ export const projects: Project[] = [
     title: "JARVIS",
     tagline: "An Iron-Man-style personal AI assistant",
     description:
-      "A full-stack, voice-driven AI assistant that controls your machine, monitors your system, indexes documents, and helps you code — powered by Claude with streaming tool use and a movie-grade HUD interface.",
+      "A full-stack, voice-driven AI assistant that controls your machine, monitors your system, indexes documents, and helps you code. Powered by Claude with streaming tool use and a movie-grade HUD interface.",
     highlights: [
       "Claude-powered agent with 30+ tools and a 4-level permission system",
       "Voice pipeline: faster-whisper (STT) + ElevenLabs/Piper (TTS)",
@@ -48,7 +48,7 @@ export const projects: Project[] = [
     title: "ZeoVPN",
     tagline: "WireGuard VPN control plane with a live dashboard",
     description:
-      "A WireGuard-based VPN control plane featuring rotating egress, multi-hop routing, Tor-over-VPN, and a kill switch — wrapped in a premium real-time dashboard and shipped as an Electron desktop app.",
+      "A WireGuard-based VPN control plane featuring rotating egress, multi-hop routing, Tor-over-VPN, and a kill switch, all wrapped in a premium real-time dashboard and shipped as an Electron desktop app.",
     highlights: [
       "Rotating egress + multi-hop routing state machine",
       "Tor-over-VPN controller and network kill switch",
@@ -84,7 +84,7 @@ export const projects: Project[] = [
     title: "Digital Twins for Supply Chains",
     tagline: "Predicting & mitigating supply chain disruptions",
     description:
-      "A comprehensive Digital Twin framework that predicts and mitigates supply chain disruptions — tackling material shortages, rising costs, and lead-time inefficiencies with real-time data and 3D visualization.",
+      "A comprehensive Digital Twin framework that predicts and mitigates supply chain disruptions, tackling material shortages, rising costs, and lead-time inefficiencies with real-time data and 3D visualization.",
     highlights: [
       "Django + PostgreSQL backend managing real-time supply chain data",
       "React + Three.js frontend for intuitive 3D network visualization",
@@ -118,7 +118,7 @@ export const projects: Project[] = [
     title: "CRCS Portal Dashboard — AICTE",
     tagline: "Analytics dashboard for educational excellence",
     description:
-      "A comprehensive dashboard built for AICTE's CRCS portal to promote educational excellence and productivity — a clean, user-friendly interface with real-time tracking, data visualization, and optimized SEO.",
+      "A comprehensive dashboard built for AICTE's CRCS portal to promote educational excellence and productivity, with a clean interface, real-time tracking, data visualization, and optimized SEO.",
     highlights: [
       "Real-time tracking + data visualization for decision-making",
       "User-friendly UX design with optimized SEO performance",

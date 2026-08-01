@@ -17,26 +17,19 @@ html {
 }
 
 body {
-  background: #050914;
-  color: #eaf0ff;
+  background: #070b16;
+  color: #e8edf7;
   font-family: var(--font-sans);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Midnight-blue gradient text */
+/* Subtle, static gradient text (no shifting animation) — restrained. */
 .text-gradient {
-  background: linear-gradient(120deg, #38bdf8, #3b82f6, #6366f1, #22d3ee);
-  background-size: 300% 300%;
+  background: linear-gradient(90deg, #9ec1ff, #5b8def);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 8s ease infinite;
-}
-
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 /* Glass card */
@@ -90,8 +83,11 @@ body {
   background: #0b1330;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(#3b82f6, #6366f1);
+  background: #2a3652;
   border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #38476b;
 }
 
 /* Rotating hero role — CSS-driven so its resting state is always visible
@@ -107,21 +103,13 @@ body {
   animation: roleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Hide the native cursor once the custom cursor takes over (fine pointers) */
-.custom-cursor-active,
-.custom-cursor-active a,
-.custom-cursor-active button,
-.custom-cursor-active [role="button"] {
-  cursor: none;
-}
-
-/* Grid backdrop */
+/* Grid backdrop — very subtle */
 .grid-bg {
   background-image:
-    linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px);
-  background-size: 46px 46px;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+    linear-gradient(rgba(120, 150, 200, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 150, 200, 0.04) 1px, transparent 1px);
+  background-size: 54px 54px;
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
