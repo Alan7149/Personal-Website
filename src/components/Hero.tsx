@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
+import MaskText from "./ui/MaskText";
+import Magnetic from "./ui/Magnetic";
 
 const socialIcons = {
   github: Github,
@@ -29,15 +31,10 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-[92vh] flex-col items-center justify-center px-6 pt-24 text-center"
     >
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl"
-      >
-        <span className="text-white">Hi, I&apos;m </span>
-        <span className="text-accent">{profile.name}</span>
-      </motion.h1>
+      <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
+        <MaskText text="Hi, I'm" className="text-white" delay={0.15} />{" "}
+        <MaskText text={profile.name} className="text-accent" delay={0.32} />
+      </h1>
 
       <div className="mt-4 flex h-9 items-center justify-center font-display text-xl font-medium text-white/70 sm:text-2xl">
         <span key={roleIndex} className="role-rotate">
@@ -60,12 +57,14 @@ export default function Hero() {
         transition={{ duration: 0.6, delay: 0.2 }}
         className="mt-9 flex flex-wrap items-center justify-center gap-3"
       >
-        <a
-          href="#projects"
-          className="rounded-lg bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-strong"
-        >
-          View my work
-        </a>
+        <Magnetic strength={0.25}>
+          <a
+            href="#projects"
+            className="block rounded-lg bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accent-strong"
+          >
+            View my work
+          </a>
+        </Magnetic>
         <a
           href="#contact"
           className="rounded-lg border border-white/15 px-6 py-3 font-semibold text-white/90 transition-colors hover:bg-white/5"

@@ -1,13 +1,36 @@
 "use client";
 
+import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import type { Project } from "@/data/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
   const primary = project.links[0]; // whole card links here when present
+  const ref = useRef<HTMLElement>(null);
+
+  function onMove(e: React.MouseEvent<HTMLElement>) {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+  }
 
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]">
+    <article
+      ref={ref}
+      onMouseMove={onMove}
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+    >
+      {/* Cursor-following highlight */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(260px circle at var(--mx) var(--my), rgba(59,130,246,0.10), transparent 70%)",
+        }}
+      />
       {/* Whole card is clickable when there's a link (stretched link — a sibling
           of the content, never nested inside another anchor). */}
       {primary && (

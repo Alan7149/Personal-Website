@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import MaskText from "./MaskText";
 
 export default function SectionHeading({
   eyebrow,
@@ -16,35 +17,45 @@ export default function SectionHeading({
   const alignment =
     align === "left" ? "text-left items-start" : "text-center items-center";
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`mb-12 flex flex-col ${alignment}`}
-    >
+    <div className={`mb-12 flex flex-col ${alignment}`}>
       {eyebrow && (
-        <p className="mb-2 text-sm font-medium uppercase tracking-wider text-accent">
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: "-80px" }}
+          className="mb-2 text-sm font-medium uppercase tracking-wider text-accent"
+        >
           {eyebrow}
-        </p>
+        </motion.p>
       )}
-      <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-        {title}
+
+      <h2 className="font-display text-3xl font-bold leading-[1.1] tracking-tight sm:text-4xl md:text-5xl">
+        <MaskText text={title} />
       </h2>
-      <div
-        className={`mt-4 h-0.5 w-12 rounded-full bg-accent ${
+
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+        className={`mt-4 h-0.5 w-12 origin-left rounded-full bg-accent ${
           align === "left" ? "" : "mx-auto"
         }`}
       />
+
       {subtitle && (
-        <p
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5, delay: 0.2 }}
           className={`mt-4 max-w-2xl text-base text-white/55 ${
             align === "left" ? "" : "mx-auto"
           }`}
         >
           {subtitle}
-        </p>
+        </motion.p>
       )}
-    </motion.div>
+    </div>
   );
 }

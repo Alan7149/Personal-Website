@@ -7,10 +7,12 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import SmoothScroll from "@/components/ui/SmoothScroll";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
+      <SmoothScroll />
       <AnimatedBackground />
       <ScrollProgress />
       <Navbar />
