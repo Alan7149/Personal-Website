@@ -13,6 +13,43 @@
 
 html {
   overflow-x: hidden;
+  scroll-padding-top: 6rem; /* keep the fixed nav from covering section headings */
+}
+
+/* Keyboard focus ring — visible for keyboard users, not on mouse click. */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Screen-reader-only (skip link etc.) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.focus\:not-sr-only:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  width: auto;
+  height: auto;
+  margin: 0;
+  clip: auto;
+  white-space: normal;
+  border-radius: 0.5rem;
+  background: #3b82f6;
+  color: #fff;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
 }
 
 /* Lenis smooth scroll */
@@ -115,6 +152,25 @@ body {
    animation is paused (e.g. a background tab) or skipped. */
 .role-rotate {
   animation: roleIn 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Fail-safe hero entrance. Animations run ONLY when the hero has the
+   `.hero-in` class, which JS adds only after confirming the tab is visible.
+   Without it (background tab, no-JS, reduced-motion) everything renders at its
+   final visible state — so the hero content can never get stuck hidden. */
+@keyframes heroRise {
+  from { transform: translateY(115%); }
+  to { transform: translateY(0); }
+}
+@keyframes heroFade {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero-in .r-word {
+  animation: heroRise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.hero-in .r-fade {
+  animation: heroFade 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Grid backdrop — very subtle */

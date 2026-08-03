@@ -52,15 +52,19 @@ export default function Contact() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.6 }}
-          className="md:col-span-2"
+          className="md:col-span-2 md:self-start"
         >
-          <div className="flex h-full flex-col justify-between gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-7">
+          <div className="flex flex-col gap-6 rounded-2xl border border-white/10 bg-white/[0.03] p-7">
             <div>
-              <h3 className="font-display text-2xl font-bold">
+              <span className="inline-flex items-center gap-2 rounded-full border border-green-400/20 bg-green-400/10 px-3 py-1 text-xs font-medium text-green-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-green-400" />
+                Available for work
+              </span>
+              <h3 className="mt-4 font-display text-2xl font-bold">
                 Reach out directly
               </h3>
               <p className="mt-2 text-sm text-white/60">
-                I usually reply within a day.
+                Based in {profile.location}. I usually reply within a day.
               </p>
             </div>
             <div className="space-y-4">
@@ -111,26 +115,51 @@ export default function Contact() {
             </div>
           ) : (
             <div className="space-y-4">
+              {/* Honeypot — hidden from real users, catches naive bots */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+              />
               <div className="grid gap-4 sm:grid-cols-2">
-                <Field label="Name" name="name" placeholder="Your name" required />
+                <Field
+                  label="Name"
+                  name="name"
+                  placeholder="Your name"
+                  autoComplete="name"
+                  required
+                />
                 <Field
                   label="Email"
                   name="email"
                   type="email"
                   placeholder="you@email.com"
+                  autoComplete="email"
                   required
                 />
               </div>
-              <Field label="Subject" name="subject" placeholder="What's this about?" />
+              <Field
+                label="Subject"
+                name="subject"
+                placeholder="What's this about?"
+                autoComplete="off"
+              />
               <div>
-                <label className="mb-1.5 block text-sm font-medium text-white/70">
+                <label
+                  htmlFor="message"
+                  className="mb-1.5 block text-sm font-medium text-white/70"
+                >
                   Message
                 </label>
                 <textarea
+                  id="message"
                   name="message"
                   required
                   rows={5}
-                  placeholder="Tell me about it…"
+                  placeholder="Tell me about it..."
                   className="w-full resize-none rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-colors focus:border-accent"
                 />
               </div>
@@ -168,23 +197,30 @@ function Field({
   type = "text",
   placeholder,
   required,
+  autoComplete,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
+  autoComplete?: string;
 }) {
   return (
     <div>
-      <label className="mb-1.5 block text-sm font-medium text-white/70">
+      <label
+        htmlFor={name}
+        className="mb-1.5 block text-sm font-medium text-white/70"
+      >
         {label}
       </label>
       <input
+        id={name}
         type={type}
         name={name}
         required={required}
         placeholder={placeholder}
+        autoComplete={autoComplete}
         className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white placeholder:text-white/30 outline-none transition-colors focus:border-accent"
       />
     </div>

@@ -24,20 +24,14 @@ export default function Navbar() {
   }, []);
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+    <header
       className={`fixed inset-x-0 top-0 z-40 flex justify-center transition-all duration-300 ${
         scrolled ? "py-2" : "py-4"
       }`}
     >
-      {/* Centered nav pill */}
-      <nav
-        className={`flex items-center gap-1 rounded-2xl px-3 py-2 transition-all duration-300 ${
-          scrolled ? "glass shadow-lg shadow-black/40" : "glass"
-        }`}
-      >
+      {/* Centered nav pill — solid enough that content never bleeds through */}
+      <nav className="flex items-center gap-1 rounded-2xl border border-white/10 bg-[rgba(9,13,26,0.82)] px-3 py-2 shadow-lg shadow-black/40 backdrop-blur-xl backdrop-saturate-150">
+
         {/* Desktop links, centered */}
         <div className="hidden items-center gap-1 md:flex">
           {links.map((l) => (
@@ -77,7 +71,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full mt-2 w-[min(92vw,20rem)] overflow-hidden rounded-2xl glass md:hidden"
+            className="absolute top-full mt-2 w-[min(92vw,20rem)] overflow-hidden rounded-2xl border border-white/10 bg-[rgba(9,13,26,0.92)] shadow-lg shadow-black/40 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col p-3">
               {links.map((l) => (
@@ -101,6 +95,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

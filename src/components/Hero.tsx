@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
-import MaskText from "./ui/MaskText";
 import Magnetic from "./ui/Magnetic";
+
+// Runs before paint on the client, no-ops on the server.
+const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const socialIcons = {
   github: Github,
@@ -14,11 +15,35 @@ const socialIcons = {
   email: Mail,
 } as const;
 
+const nameWords = [
+  { w: "Hi,", c: "text-white" },
+  { w: "I'm", c: "text-white" },
+  ...profile.name.split(" ").map((w) => ({ w, c: "text-accent" })),
+];
+
 export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
+  // Entrance only plays once the tab is actually visible; otherwise everything
+  // stays at its final visible state (fixes the "invisible in a background tab"
+  // bug that rAF-driven reveals suffer from).
+  const [heroIn, setHeroIn] = useState(false);
+
+  useIso(() => {
+    if (document.visibilityState === "visible") {
+      setHeroIn(true);
+      return;
+    }
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        setHeroIn(true);
+        document.removeEventListener("visibilitychange", onVisible);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
 
   useEffect(() => {
-    // Slow, calm rotation so each role is actually read.
     const id = setInterval(
       () => setRoleIndex((i) => (i + 1) % profile.roles.length),
       4200
@@ -29,11 +54,25 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-[92vh] flex-col items-center justify-center px-6 pt-24 text-center"
+      className={`relative flex min-h-[92vh] flex-col items-center justify-center px-6 pt-24 text-center ${
+        heroIn ? "hero-in" : ""
+      }`}
     >
       <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
-        <MaskText text="Hi, I'm" className="text-white" delay={0.15} />{" "}
-        <MaskText text={profile.name} className="text-accent" delay={0.32} />
+        {nameWords.map((n, i) => (
+          <span
+            key={i}
+            className="inline-block overflow-hidden pb-[0.14em] align-bottom"
+          >
+            <span
+              className={`r-word inline-block ${n.c}`}
+              style={{ animationDelay: `${(0.1 + i * 0.05).toFixed(2)}s` }}
+            >
+              {n.w}
+            </span>
+            {i < nameWords.length - 1 ? " " : null}
+          </span>
+        ))}
       </h1>
 
       <div className="mt-4 flex h-9 items-center justify-center font-display text-xl font-medium text-white/70 sm:text-2xl">
@@ -42,20 +81,16 @@ export default function Hero() {
         </span>
       </div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-        className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/55 sm:text-lg"
+      <p
+        className="r-fade mx-auto mt-6 max-w-xl text-base leading-relaxed text-white/60 sm:text-lg"
+        style={{ animationDelay: "0.4s" }}
       >
         {profile.headline}
-      </motion.p>
+      </p>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="mt-9 flex flex-wrap items-center justify-center gap-3"
+      <div
+        className="r-fade mt-9 flex flex-wrap items-center justify-center gap-3"
+        style={{ animationDelay: "0.5s" }}
       >
         <Magnetic strength={0.25}>
           <a
@@ -71,13 +106,11 @@ export default function Hero() {
         >
           Get in touch
         </a>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="mt-8 flex items-center gap-3"
+      <div
+        className="r-fade mt-8 flex items-center gap-3"
+        style={{ animationDelay: "0.6s" }}
       >
         {Object.entries(profile.socials).map(([key, href]) => {
           if (!href) return null;
@@ -96,7 +129,7 @@ export default function Hero() {
             </a>
           );
         })}
-      </motion.div>
+      </div>
 
       <a
         href="#about"

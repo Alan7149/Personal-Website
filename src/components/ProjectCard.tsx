@@ -20,7 +20,7 @@ export default function ProjectCard({ project }: { project: Project }) {
     <article
       ref={ref}
       onMouseMove={onMove}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/[0.04]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1.5 hover:border-accent/40 hover:bg-white/[0.04] hover:shadow-[0_20px_50px_-12px_rgba(59,130,246,0.28)]"
     >
       {/* Cursor-following highlight */}
       <div
@@ -69,7 +69,8 @@ export default function ProjectCard({ project }: { project: Project }) {
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-white/[0.02]">
@@ -103,7 +104,7 @@ export default function ProjectCard({ project }: { project: Project }) {
         )}
 
         <div className="mt-auto pt-5">
-          <div className="mb-4 flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/40">
+          <div className="mb-4 flex flex-wrap gap-x-3 gap-y-1 text-xs text-white/60">
             {project.tech.map((t) => (
               <span key={t}>{t}</span>
             ))}

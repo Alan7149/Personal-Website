@@ -34,7 +34,7 @@ export default function About() {
           <div className="space-y-5">
             {Object.entries(profile.skills).map(([group, items]) => (
               <div key={group}>
-                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-accent/80">
+                <p className="mb-2 text-xs font-medium uppercase tracking-wider text-accent-soft">
                   {group}
                 </p>
                 <div className="flex flex-wrap gap-2">

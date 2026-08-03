@@ -8,20 +8,27 @@ import Footer from "@/components/Footer";
 import AnimatedBackground from "@/components/ui/AnimatedBackground";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import SmoothScroll from "@/components/ui/SmoothScroll";
+import ConsoleGreeting from "@/components/ui/ConsoleGreeting";
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen">
+    <>
+      <a href="#main" className="sr-only focus:not-sr-only">
+        Skip to content
+      </a>
       <SmoothScroll />
+      <ConsoleGreeting />
       <AnimatedBackground />
       <ScrollProgress />
       <Navbar />
-      <Hero />
-      <About />
-      <Projects />
-      <Experience />
-      <Contact />
+      <main id="main" tabIndex={-1} className="relative min-h-screen outline-none">
+        <Hero />
+        <About />
+        <Projects />
+        <Experience />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }
