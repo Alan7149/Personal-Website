@@ -1,10 +1,16 @@
+// Next.js dev (HMR / React Refresh) needs 'unsafe-eval' and a localhost
+// websocket; production does not, so we keep the prod policy tight.
+const isDev = process.env.NODE_ENV === "development";
+
 const ContentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://va.vercel-scripts.com",
+  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""} https://va.vercel-scripts.com`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com",
+  `connect-src 'self' https://vitals.vercel-insights.com https://va.vercel-scripts.com${
+    isDev ? " ws://localhost:* http://localhost:*" : ""
+  }`,
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",
