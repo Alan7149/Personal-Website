@@ -4,7 +4,6 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { ArrowDown, Github, Linkedin, Twitter, Mail } from "lucide-react";
 import { profile } from "@/data/profile";
 import Magnetic from "./ui/Magnetic";
-import HeroCanvas from "./ui/HeroCanvas";
 
 // Runs before paint on the client, no-ops on the server.
 const useIso = typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -59,14 +58,6 @@ export default function Hero() {
         heroIn ? "hero-in" : ""
       }`}
     >
-      {/* Ambient interactive backdrop */}
-      <HeroCanvas />
-      {/* Legibility vignette between the canvas and the content */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_55%_45%_at_50%_45%,rgba(7,11,22,0.55),transparent_75%)]"
-      />
-
       <div className="relative z-10 flex w-full flex-col items-center">
       <h1 className="font-display text-4xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
         {nameWords.map((n, i) => (
